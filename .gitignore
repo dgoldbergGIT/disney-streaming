@@ -1038,3 +1038,10 @@
 /DisneyStreamingPlus/bin/x86/Debug/AppX/Assets/SplashScreen.scale-200.png
 /DisneyStreamingPlus/bin/x86/Debug/AppX/Assets/LockScreenLogo.scale-200.png
 /DisneyStreamingPlus/bin/x86/Debug/AppX/AppxManifest.xml
+/DisneyStreamingPlus/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/DisneyStreamingPlus/obj/x86/Debug/build.force
+/DisneyStreamingPlus/obj/x86/Debug/.NETCore,Version=v5.0.AssemblyAttributes.cs
+/DisneyHomePageApi/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/DisneyHomePageApi/obj/x86/Debug/build.force
+/DisneyHomePageApi/bin/x86/Debug/DisneyHomePageApi.dll
+/.vs/slnx.sqlite-journal
