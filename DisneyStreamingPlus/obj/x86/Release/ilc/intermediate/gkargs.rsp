@@ -1,0 +1,9 @@
+﻿"C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyStreamingPlus\obj\x86\Release\ilc\in\DisneyHomePageApi.dll"
+"C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyStreamingPlus\obj\x86\Release\ilc\in\DisneyStreamingPlus.exe"
+"C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyStreamingPlus\obj\x86\Release\ilc\in\Newtonsoft.Json.dll"
+/Lib:"C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyStreamingPlus\obj\x86\Release\ilc\in"
+/Lib:"C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.net.native.compiler\2.2.10-rel-29722-00\tools\x86\ilc\lib\Private"
+/WinMD:"C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyStreamingPlus\obj\x86\Release\ilc\in\WinMetadata\Windows.winmd"
+/VSTelemetrySessionSettings:"{\"IsOptedIn\":true,\"HostName\":\"Dev14\",\"AppInsightsInstrumentationKey\":\"f144292e-e3b2-4011-ac90-20e5c03fbce5\",\"AsimovInstrumentationKey\":\"AIF-312cbd79-9dbb-4c48-a7da-3cc2a931cb70\",\"AppId\":1001,\"UserId\":\"58ba3f53-cdda-48e6-9481-87dafe64d6f8\",\"Id\":\"2b266754-fee0-437d-86d0-94b6c08ac517\",\"ProcessStartTime\":637796276377042869}"
+/RdXmlPath:"C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.net.native.compiler\2.2.10-rel-29722-00\tools\LibraryXML"
+/RunOnlyPreDR

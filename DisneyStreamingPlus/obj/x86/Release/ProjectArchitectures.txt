@@ -1,0 +1,2 @@
+C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyHomePageApi\DisneyHomePageApi.csproj;x86
+C:\Users\t0246719\source\repos\DisneyStreamPlusGIT\DisneyStreamingPlus\DisneyStreamingPlus.csproj;x86

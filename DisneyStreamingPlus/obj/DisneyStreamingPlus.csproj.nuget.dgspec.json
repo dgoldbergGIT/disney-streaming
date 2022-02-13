@@ -1,0 +1,160 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyStreamingPlus\\DisneyStreamingPlus.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyHomePageApi\\DisneyHomePageApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyHomePageApi\\DisneyHomePageApi.csproj",
+        "projectName": "DisneyHomePageApi",
+        "projectPath": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyHomePageApi\\DisneyHomePageApi.csproj",
+        "packagesPath": "C:\\Users\\t0246719\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyHomePageApi\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\t0246719\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "uap10.0.17763"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "uap10.0.17763": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "uap10.0.17763": {
+          "dependencies": {
+            "Microsoft.NETCore.UniversalWindowsPlatform": {
+              "target": "Package",
+              "version": "[6.2.12, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      },
+      "runtimes": {
+        "win10-arm": {
+          "#import": []
+        },
+        "win10-arm-aot": {
+          "#import": []
+        },
+        "win10-arm64-aot": {
+          "#import": []
+        },
+        "win10-x64": {
+          "#import": []
+        },
+        "win10-x64-aot": {
+          "#import": []
+        },
+        "win10-x86": {
+          "#import": []
+        },
+        "win10-x86-aot": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyStreamingPlus\\DisneyStreamingPlus.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyStreamingPlus\\DisneyStreamingPlus.csproj",
+        "projectName": "DisneyStreamingPlus",
+        "projectPath": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyStreamingPlus\\DisneyStreamingPlus.csproj",
+        "packagesPath": "C:\\Users\\t0246719\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyStreamingPlus\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\t0246719\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "uap10.0.17763"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "uap10.0.17763": {
+            "projectReferences": {
+              "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyHomePageApi\\DisneyHomePageApi.csproj": {
+                "projectPath": "C:\\Users\\t0246719\\source\\repos\\DisneyStreamPlusGIT\\DisneyHomePageApi\\DisneyHomePageApi.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "uap10.0.17763": {
+          "dependencies": {
+            "Microsoft.NETCore.UniversalWindowsPlatform": {
+              "target": "Package",
+              "version": "[6.2.12, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      },
+      "runtimes": {
+        "win10-arm": {
+          "#import": []
+        },
+        "win10-arm-aot": {
+          "#import": []
+        },
+        "win10-arm64-aot": {
+          "#import": []
+        },
+        "win10-x64": {
+          "#import": []
+        },
+        "win10-x64-aot": {
+          "#import": []
+        },
+        "win10-x86": {
+          "#import": []
+        },
+        "win10-x86-aot": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
