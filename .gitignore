@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/IntegrationTests/obj/x86/Release/XamlTypeInfo.g.cs
