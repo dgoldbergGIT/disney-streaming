@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Model\Row.cs" />
     <Compile Include="Model\StreamingCatalog.cs" />
+    <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="ViewModel\MainPageViewModel.cs" />
     <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

@@ -12,8 +12,10 @@ namespace DisneyStreamingPlus
     {
         public MainPage()
         {
-            DataContext = new MainPageViewModel();
+            ViewModel = new MainPageViewModel();
             InitializeComponent();
         }
+
+        public MainPageViewModel ViewModel { get; set; }
     }
 }

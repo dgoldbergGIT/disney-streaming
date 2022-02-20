@@ -3,36 +3,15 @@ using System.Collections.Generic;
 
 namespace DisneyStreamingPlus.ViewModel
 {
-    internal class MainPageViewModel
+    public class MainPageViewModel
     {
-        private StreamingCatalog _streamingCatalog;
-
         public MainPageViewModel()
         {
-            //todo: move to async
-            _streamingCatalog = new StreamingCatalog();
-            Caption = "Hello World";
+            //todo: is Rows really what we get here?
+            Rows = new NotifyTaskCompletion<List<Row>>(StreamingCatalog.GetImageUrlsAsync());
         }
 
-        public string Caption { get; set; }
-
-        public List<Row> Rows
-        {
-            get
-            {
-                var row = new Row(Images, "Hello World Row");
-                var rowList = new List<Row>(1);
-                rowList.Add(row);
-                return rowList;
-            }
-        }
-
-        public List<string> Images
-        {
-            get
-            {
-                return _streamingCatalog.Row;
-            }
-        }
+        //TODO: Do we want just rows here with no logic?
+        public NotifyTaskCompletion<List<Row>> Rows { get; set; }
     }
 }

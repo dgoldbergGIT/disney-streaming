@@ -2,7 +2,7 @@
 
 namespace DisneyStreamingPlus.Model
 {
-    internal class Row
+    public class Row
     {
         public List<string> ImageUrls { get; set; }
         public string Caption { get; set; }

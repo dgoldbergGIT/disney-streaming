@@ -4,44 +4,47 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:model="using:DisneyStreamingPlus.Model"
 	xmlns:local="using:DisneyStreamingPlus.ViewModel"
 	d:DataContext="{d:DesignInstance Type=local:MainPageViewModel}"
 	mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
-		<DataTemplate x:Key="imagesTemplate">
+		<DataTemplate x:Key="imagesTemplate" x:DataType="model:Row">
 			<StackPanel Orientation="Vertical">
-				<TextBlock Text="{Binding Caption}" FontSize="30" FontWeight="Bold" />
-				<GridView ItemsSource="{Binding ImageUrls}">
+				<TextBlock Text="{x:Bind Caption}" FontSize="30" FontWeight="Bold" />
+				<GridView ItemsSource="{x:Bind ImageUrls}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel Orientation="Horizontal" />
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Image Source="{Binding}" Height="125" Width="125" />
+						<DataTemplate x:DataType="x:String">
+							<Image Source="{x:Bind}" Height="125" Width="125" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</GridView>
 			</StackPanel>
 		</DataTemplate>
-
-		<DataTemplate x:Key="rowHeader">
-			<TextBlock Text="{Binding Path=Caption}" FontSize="30" FontWeight="Bold" />
-		</DataTemplate>
 	</Page.Resources>
 
 	<Grid>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto">
-			<GridView ItemsSource="{Binding Rows}" ItemTemplate="{StaticResource imagesTemplate}">
-				<!--<GridView.ItemsPanel>
+			<StackPanel>
+				<GridView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}" ItemTemplate="{StaticResource imagesTemplate}">
+					<!--<GridView.ItemsPanel>
 				<ItemsPanelTemplate>
 					<ItemsWrapGrid Orientation="Horizontal"></ItemsWrapGrid>
 				</ItemsPanelTemplate>
 			</GridView.ItemsPanel>-->
-			</GridView>
+				</GridView>
+				<!-- Busy indicator -->
+				<TextBlock Text="Loading..." Visibility="{x:Bind ViewModel.Rows.IsNotCompleted, Mode=OneWay}" />
+				<!-- Error details -->
+				<TextBlock Text="{x:Bind ViewModel.Rows.ErrorMessage, Mode=OneWay}" Foreground="Red" Visibility="{x:Bind ViewModel.Rows.IsFaulted, Mode=OneWay}" />
+			</StackPanel>
 		</ScrollViewer>
 	</Grid>
 </Page>

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DisneyHomePageApi
 {
@@ -17,14 +18,13 @@ namespace DisneyHomePageApi
             _httpClient.BaseAddress = new Uri(_HomePageBaseAddress);
         }
 
-        public HomePage GetHomePageAsJson()
+        public async Task<HomePage> GetHomePageAsJsonAsync()
         {
             var httpResponseMessageTask = _httpClient.GetAsync(_HomePageRelativeAddress);
             var httpResponseMessage = httpResponseMessageTask.Result;
             var content = httpResponseMessage.Content;
-            var stringContentTask = content.ReadAsStringAsync();
-            var result = stringContentTask.Result;
-            return JsonConvert.DeserializeObject<HomePage>(result);
+            var homePageString = await content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<HomePage>(homePageString);
         }
     }
 }
