@@ -33,7 +33,7 @@ namespace DisneyStreamingPlus.Model
                     var caption = set?.text?.title?.full?.set?.defaultContent?.content;
                     var listOfImageUrls = new List<string>();
                     var listOfItems = set.items;
-                    var enumOfImageUrls = listOfItems?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.defaultProperty?.url);
+                    var enumOfImageUrls = listOfItems?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.DefaultProperty?.Url);
                     if (enumOfImageUrls != null)
                     {
                         listOfImageUrls.AddRange(enumOfImageUrls);

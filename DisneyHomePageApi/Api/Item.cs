@@ -4,7 +4,6 @@ namespace DisneyHomePageApi.Api
 {
     public class Item
     {
-        public string contentId;
         public Image image;
 
         public class Image
@@ -22,24 +21,26 @@ namespace DisneyHomePageApi.Api
 
                     public Series series;
 
+                    public Series program;
+
                     [JsonProperty("default")]
                     public Series DefaultOuter
                     {
-                        get { return _series ?? series; }
+                        get { return _series ?? series ?? program; }
                         set { _series = value; }
                     }
 
                     public class Series
                     {
                         [JsonProperty("default")]
-                        public Default defaultProperty;
+                        public Default DefaultProperty;
 
                         public class Default
                         {
-                            public string masterId;
-                            public string masterWidth;
-                            public string masterHeight;
-                            public string url;
+                            public string MasterId;
+                            public string MasterWidth;
+                            public string MasterHeight;
+                            public string Url;
                         }
                     }
                 }

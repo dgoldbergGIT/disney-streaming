@@ -14,7 +14,7 @@
 		<!-- TODO: Use Phase keyword -->
 		<DataTemplate x:Key="imagesTemplate" x:DataType="model:Row">
 			<StackPanel Orientation="Vertical">
-				<TextBlock Text="{x:Bind Caption}" FontSize="30" FontWeight="Bold" />
+				<TextBlock Text="{x:Bind Caption}" FontSize="15" FontWeight="Bold" />
 				<GridView ItemsSource="{x:Bind ImageUrls}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -23,7 +23,8 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate x:DataType="x:String">
-							<Image Source="{x:Bind}" Height="125" Width="125" />
+							<!-- TODO: Use ImageFailed event to show a local "Image missing" icon/picture on the event of missing image (404)-->
+							<Image Source="{x:Bind}" Height="130" Width="130" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</GridView>
@@ -34,14 +35,16 @@
 	<Grid>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto">
 			<StackPanel>
-				<GridView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
+				<ListView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
 						  ItemTemplate="{StaticResource imagesTemplate}">
+					<ItemsWrapGrid Orientation="Vertical">
+					</ItemsWrapGrid>
 					<!--<GridView.ItemsPanel>
 				<ItemsPanelTemplate>
 					<ItemsWrapGrid Orientation="Horizontal"></ItemsWrapGrid>
 				</ItemsPanelTemplate>
 			</GridView.ItemsPanel>-->
-				</GridView>
+				</ListView>
 				<!-- Loading indicator -->
 				<TextBlock Text="Loading..." Visibility="{x:Bind ViewModel.Rows.IsNotCompleted, Mode=OneWay}" />
 				<!-- Error/Exception details -->
