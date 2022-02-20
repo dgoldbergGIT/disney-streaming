@@ -1,4 +1,6 @@
 ﻿using DisneyHomePageApi;
+using DisneyHomePageApi.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,26 +17,34 @@ namespace DisneyStreamingPlus.Model
             //TODO: This should be a separate Row property - but how to do with async?
 
             //var test = HomePage?.data?.standardCollection?.containers?.Select(i => i?.set?.items?.Select(u => u?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.defaultProperty?.url)).ToList();
-            var test = HomePage?.data?.standardCollection?.containers?.Select(i => i?.set);
-            var test2 = test?.Select(t => t.items).Where(t => t != null);
+            var listOfContainers = HomePage?.data?.standardCollection?.containers;
 
-            var tempList = new List<string>();
-            foreach (var listOfItmes in test2)
+            //?.Select(t => t.items);
+            // the following shouldn't be necessary now that I'm checking for curatedset?
+            //?.Where(t => t != null);
+
+            // TODO: Use group by or a different more advanced way to serialize into JSON. Remember that items[x].type defines the keyword after series
+            var listOfRows = new List<Row>();
+            foreach (var container in listOfContainers)
             {
-                var temp = listOfItmes?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.defaultProperty?.url);
-                if (temp != null)
+                var set = container.set;
+                if (set.type == Set.Type.CuratedSet.ToString())
                 {
-                    tempList.AddRange(temp);
+                    var caption = set?.text?.title?.full?.set?.defaultContent?.content;
+                    var listOfImageUrls = new List<string>();
+                    var listOfItems = set.items;
+                    var enumOfImageUrls = listOfItems?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.defaultProperty?.url);
+                    if (enumOfImageUrls != null)
+                    {
+                        listOfImageUrls.AddRange(enumOfImageUrls);
+                    }
+                    listOfImageUrls.RemoveAll(i => i == null);
+                    //TODO: Get real caption
+                    listOfRows.Add(new Row(listOfImageUrls, caption));
                 }
             }
 
-            tempList.RemoveAll(i => i == null);
-            //TODO: Get real caption
-            var row = new Row(tempList, "Hello World Row");
-            //TODO: Fish out rows
-            var rowList = new List<Row>(1);
-            rowList.Add(row);
-            return rowList;
+            return listOfRows;
         }
     }
 }

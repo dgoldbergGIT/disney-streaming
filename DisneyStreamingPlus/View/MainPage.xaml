@@ -11,6 +11,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
+		<!-- TODO: Use Phase keyword -->
 		<DataTemplate x:Key="imagesTemplate" x:DataType="model:Row">
 			<StackPanel Orientation="Vertical">
 				<TextBlock Text="{x:Bind Caption}" FontSize="30" FontWeight="Bold" />
@@ -33,16 +34,17 @@
 	<Grid>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto">
 			<StackPanel>
-				<GridView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}" ItemTemplate="{StaticResource imagesTemplate}">
+				<GridView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
+						  ItemTemplate="{StaticResource imagesTemplate}">
 					<!--<GridView.ItemsPanel>
 				<ItemsPanelTemplate>
 					<ItemsWrapGrid Orientation="Horizontal"></ItemsWrapGrid>
 				</ItemsPanelTemplate>
 			</GridView.ItemsPanel>-->
 				</GridView>
-				<!-- Busy indicator -->
+				<!-- Loading indicator -->
 				<TextBlock Text="Loading..." Visibility="{x:Bind ViewModel.Rows.IsNotCompleted, Mode=OneWay}" />
-				<!-- Error details -->
+				<!-- Error/Exception details -->
 				<TextBlock Text="{x:Bind ViewModel.Rows.ErrorMessage, Mode=OneWay}" Foreground="Red" Visibility="{x:Bind ViewModel.Rows.IsFaulted, Mode=OneWay}" />
 			</StackPanel>
 		</ScrollViewer>

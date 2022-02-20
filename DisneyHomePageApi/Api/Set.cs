@@ -5,7 +5,14 @@ namespace DisneyHomePageApi.Api
 {
     public class Set
     {
+        public enum Type
+        {
+            CuratedSet,
+            SetRef,
+        }
+
         public List<Item> items;
+        public string type;
         public Text text;
 
         public class Text
