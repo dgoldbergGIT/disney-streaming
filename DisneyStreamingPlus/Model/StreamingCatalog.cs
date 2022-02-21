@@ -12,12 +12,12 @@ namespace DisneyStreamingPlus.Model
         public static async Task<List<Row>> GetImageUrlsAsync()
         {
             var _connector = new DisneyHomePageHttpConnector();
-            var HomePage = await _connector.GetHomePageAsJsonAsync();
+            var homePage = await _connector.GetHomePageAsJsonAsync();
 
             //TODO: This should be a separate Row property - but how to do with async?
 
             //var test = HomePage?.data?.standardCollection?.containers?.Select(i => i?.set?.items?.Select(u => u?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.defaultProperty?.url)).ToList();
-            var listOfContainers = HomePage?.data?.standardCollection?.containers;
+            var listOfContainers = homePage?.data?.standardCollection?.containers;
 
             //?.Select(t => t.items);
             // the following shouldn't be necessary now that I'm checking for curatedset?
@@ -33,18 +33,34 @@ namespace DisneyStreamingPlus.Model
                     var caption = set?.text?.title?.full?.set?.defaultContent?.content;
                     var listOfImageUrls = new List<string>();
                     var listOfItems = set.items;
-                    var enumOfImageUrls = listOfItems?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.DefaultProperty?.Url);
-                    if (enumOfImageUrls != null)
+                    var enumerationOfImageUrls = listOfItems?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.DefaultProperty?.Url);
+                    if (enumerationOfImageUrls != null)
                     {
-                        listOfImageUrls.AddRange(enumOfImageUrls);
+                        listOfImageUrls.AddRange(enumerationOfImageUrls);
                     }
                     listOfImageUrls.RemoveAll(i => i == null);
-                    //TODO: Get real caption
+                    listOfRows.Add(new Row(listOfImageUrls, caption));
+                }
+                else if (set.type == Set.Type.SetRef.ToString())
+                {
+                    var refSetPage = await _connector.GetRefIdPageAsJsonAsync(set.refId);
+                    var refIdSet = refSetPage.data.CuratedSet;
+                    var caption = refIdSet?.text?.title?.full?.set?.defaultContent?.content;
+                    var listOfImageUrls = new List<string>();
+                    var listOfItems = refIdSet.items;
+                    var enumerationOfImageUrls = listOfItems?.Select(v => v?.image?.tile?.oneDotSevenEightAspectRatio?.DefaultOuter?.DefaultProperty?.Url);
+                    if (enumerationOfImageUrls != null)
+                    {
+                        listOfImageUrls.AddRange(enumerationOfImageUrls);
+                    }
+                    listOfImageUrls.RemoveAll(i => i == null);
                     listOfRows.Add(new Row(listOfImageUrls, caption));
                 }
             }
 
             return listOfRows;
         }
+
+        //private static Row GetRowFromSet ()
     }
 }

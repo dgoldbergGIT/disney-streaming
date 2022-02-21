@@ -13,6 +13,7 @@ namespace DisneyHomePageApi.Api
 
         public List<Item> items;
         public string type;
+        public string refId;
         public Text text;
 
         public class Text
@@ -35,7 +36,6 @@ namespace DisneyHomePageApi.Api
                         public class DefaultContent
                         {
                             public string content;
-                            public string language;
                         }
                     }
                 }

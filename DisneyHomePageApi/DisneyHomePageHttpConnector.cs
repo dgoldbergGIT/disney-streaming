@@ -10,6 +10,7 @@ namespace DisneyHomePageApi
     {
         private const string _HomePageBaseAddress = "https://cd-static.bamgrid.com/";
         private const string _HomePageRelativeAddress = "dp-117731241344/home.json";
+        private const string _RefSetPageRelativeAddressFormatString = "dp-117731241344/sets/{0}.json";
         private static readonly HttpClient _httpClient;
 
         static DisneyHomePageHttpConnector()
@@ -25,6 +26,15 @@ namespace DisneyHomePageApi
             var content = httpResponseMessage.Content;
             var homePageString = await content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<HomePage>(homePageString);
+        }
+
+        public async Task<RefIdPage> GetRefIdPageAsJsonAsync(string refId)
+        {
+            var httpResponseMessageTask = _httpClient.GetAsync(string.Format(_RefSetPageRelativeAddressFormatString, refId));
+            var httpResponseMessage = httpResponseMessageTask.Result;
+            var content = httpResponseMessage.Content;
+            var refIdPageString = await content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<RefIdPage>(refIdPageString);
         }
     }
 }

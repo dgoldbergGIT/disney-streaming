@@ -37,7 +37,6 @@ namespace DisneyHomePageApi.Api
 
                         public class Default
                         {
-                            public string MasterId;
                             public string MasterWidth;
                             public string MasterHeight;
                             public string Url;

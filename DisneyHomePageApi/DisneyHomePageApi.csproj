@@ -121,6 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Api\Containers.cs" />
+    <Compile Include="Api\RefIdPage.cs" />
     <Compile Include="Api\HomePage.cs" />
     <Compile Include="Api\Data.cs" />
     <Compile Include="Api\Item.cs" />
