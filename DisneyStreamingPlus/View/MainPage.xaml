@@ -14,7 +14,7 @@
 		<!-- TODO: Use Phase keyword -->
 		<DataTemplate x:Key="imagesTemplate" x:DataType="model:Row">
 			<StackPanel Orientation="Vertical">
-				<TextBlock Text="{x:Bind Caption}" FontSize="15" FontWeight="Bold" />
+				<TextBlock Text="{x:Bind Caption}" FontSize="12" Foreground="White"/>
 				<GridView ItemsSource="{x:Bind ImageUrls}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -23,8 +23,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate x:DataType="x:String">
-							<!-- TODO: Use ImageFailed event to show a local "Image missing" icon/picture on the event of missing image (404)-->
-							<Image Source="{x:Bind}" Height="130" Width="130" ImageFailed="Image_ImageFailed" />
+							<Image Source="{x:Bind}" Width="135" ImageFailed="Image_ImageFailed" Margin="2"/>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</GridView>
@@ -32,11 +31,11 @@
 		</DataTemplate>
 	</Page.Resources>
 
-	<Grid>
+	<Grid Background="Black">
 		<ScrollViewer HorizontalScrollBarVisibility="Auto">
 			<StackPanel>
 				<ListView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
-						  ItemTemplate="{StaticResource imagesTemplate}">
+						  ItemTemplate="{StaticResource imagesTemplate}" Margin="10,20">
 					<ItemsWrapGrid Orientation="Vertical">
 					</ItemsWrapGrid>
 					<!--<GridView.ItemsPanel>

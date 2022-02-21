@@ -7,11 +7,9 @@ namespace DisneyStreamingPlus.ViewModel
     {
         public MainPageViewModel()
         {
-            //todo: is Rows really what we get here?
-            Rows = new NotifyTaskCompletion<List<Row>>(StreamingCatalog.GetImageUrlsAsync());
+            Rows = new NotifyTaskCompletion<List<Row>>(StreamingCatalog.GetListOfRowsAsync());
         }
 
-        //TODO: Do we want just rows here with no logic?
         public NotifyTaskCompletion<List<Row>> Rows { get; set; }
     }
 }

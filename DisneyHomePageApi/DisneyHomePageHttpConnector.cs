@@ -8,9 +8,11 @@ namespace DisneyHomePageApi
 {
     public class DisneyHomePageHttpConnector
     {
-        private const string _HomePageBaseAddress = "https://cd-static.bamgrid.com/";
-        private const string _HomePageRelativeAddress = "dp-117731241344/home.json";
-        private const string _RefSetPageRelativeAddressFormatString = "dp-117731241344/sets/{0}.json";
+        //TODO: Put in config file
+        private const string _HomePageBaseAddress = "https://cd-static.bamgrid.com/dp-117731241344/";
+
+        private const string _HomePageRelativeAddress = "home.json";
+        private const string _RefSetPageRelativeAddressFormatString = "sets/{0}.json";
         private static readonly HttpClient _httpClient;
 
         static DisneyHomePageHttpConnector()
@@ -21,20 +23,21 @@ namespace DisneyHomePageApi
 
         public async Task<HomePage> GetHomePageAsJsonAsync()
         {
-            var httpResponseMessageTask = _httpClient.GetAsync(_HomePageRelativeAddress);
-            var httpResponseMessage = httpResponseMessageTask.Result;
-            var content = httpResponseMessage.Content;
-            var homePageString = await content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<HomePage>(homePageString);
+            return await GetJsonAsync<HomePage>(_HomePageRelativeAddress);
         }
 
         public async Task<RefIdPage> GetRefIdPageAsJsonAsync(string refId)
         {
-            var httpResponseMessageTask = _httpClient.GetAsync(string.Format(_RefSetPageRelativeAddressFormatString, refId));
+            return await GetJsonAsync<RefIdPage>(string.Format(_RefSetPageRelativeAddressFormatString, refId));
+        }
+
+        private async Task<TResult> GetJsonAsync<TResult>(string relativeAddress)
+        {
+            var httpResponseMessageTask = _httpClient.GetAsync(relativeAddress);
             var httpResponseMessage = httpResponseMessageTask.Result;
             var content = httpResponseMessage.Content;
             var refIdPageString = await content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<RefIdPage>(refIdPageString);
+            return JsonConvert.DeserializeObject<TResult>(refIdPageString);
         }
     }
 }
