@@ -1,15 +1,19 @@
 ﻿using DisneyStreamingPlus.ViewModel;
+using System;
+using System.IO;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace DisneyStreamingPlus
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The main page to navigate videos.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private const string ImageNotFoundErrorRelativePath = "Assets\\ImageNotFoundError.png";
+
         public MainPage()
         {
             ViewModel = new MainPageViewModel();
@@ -17,5 +21,14 @@ namespace DisneyStreamingPlus
         }
 
         public MainPageViewModel ViewModel { get; set; }
+
+        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            var image = sender as Image;
+            if (image != null)
+            {
+                image.Source = new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, ImageNotFoundErrorRelativePath)));
+            }
+        }
     }
 }

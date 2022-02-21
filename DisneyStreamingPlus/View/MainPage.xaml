@@ -24,7 +24,7 @@
 					<ItemsControl.ItemTemplate>
 						<DataTemplate x:DataType="x:String">
 							<!-- TODO: Use ImageFailed event to show a local "Image missing" icon/picture on the event of missing image (404)-->
-							<Image Source="{x:Bind}" Height="130" Width="130" />
+							<Image Source="{x:Bind}" Height="130" Width="130" ImageFailed="Image_ImageFailed" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</GridView>
