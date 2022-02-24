@@ -1,6 +1,6 @@
-﻿using DisneyHomePageApi.Api;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -9,35 +9,101 @@ namespace DisneyHomePageApi
     public class DisneyHomePageHttpConnector
     {
         //TODO: Put in config file
-        private const string _HomePageBaseAddress = "https://cd-static.bamgrid.com/dp-117731241344/";
+        private const string _HomePageBaseAddress = @"https://cd-static.bamgrid.com/dp-117731241344/";
 
         private const string _HomePageRelativeAddress = "home.json";
         private const string _RefSetPageRelativeAddressFormatString = "sets/{0}.json";
-        private static readonly HttpClient _httpClient;
+        private dynamic _ContainerSet;
+        private readonly HttpClient _httpClient;
 
-        static DisneyHomePageHttpConnector()
+        private DisneyHomePageHttpConnector()
         {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(_HomePageBaseAddress);
         }
 
-        public async Task<HomePage> GetHomePageAsJsonAsync()
+        public Dictionary<string, List<string>> ParseStaticSets()
         {
-            return await GetJsonAsync<HomePage>(_HomePageRelativeAddress);
+            var captionAndUrlListDictionary = new Dictionary<string, List<string>>();
+            foreach (dynamic container in _ContainerSet)
+            {
+                dynamic set = container.set;
+                if (set.type == "CuratedSet")
+                {
+                    string caption = set.text.title.full.set.@default.content;
+                    var listOfUrlStrings = GetListOfUrlStrings(set.items);
+                    captionAndUrlListDictionary.Add(caption, listOfUrlStrings);
+                }
+            }
+            return captionAndUrlListDictionary;
         }
 
-        public async Task<RefIdPage> GetRefIdPageAsJsonAsync(string refId)
+        public async Task<Dictionary<string, List<string>>> ParseDynamicSets()
         {
-            return await GetJsonAsync<RefIdPage>(string.Format(_RefSetPageRelativeAddressFormatString, refId));
+            var captionAndUrlListDictionary = new Dictionary<string, List<string>>();
+
+            foreach (dynamic container in _ContainerSet)
+            {
+                dynamic set = container.set;
+                if (set.type == "SetRef")
+                {
+                    string caption = set.text.title.full.set.@default.content;
+                    var refIdUrlString = GetRefIdUrlString(set.refId);
+                    var refSetPageAsString = await GetWebPageAsStringAsync(refIdUrlString);
+                    dynamic json = JToken.Parse(refSetPageAsString);
+                    dynamic items = json.SelectToken("$.data.*.items");
+                    var listOfUrlStrings = GetListOfUrlStrings(items);
+                    captionAndUrlListDictionary.Add(caption, listOfUrlStrings);
+                }
+            }
+
+            return captionAndUrlListDictionary;
         }
 
-        private async Task<TResult> GetJsonAsync<TResult>(string relativeAddress)
+        private async Task<DisneyHomePageHttpConnector> InitializeAsync()
+        {
+            _ContainerSet = await GetHomePageAsContainerSetAsync(_HomePageRelativeAddress);
+            return this;
+        }
+
+        public static Task<DisneyHomePageHttpConnector> CreateAsync()
+        {
+            var ret = new DisneyHomePageHttpConnector();
+            return ret.InitializeAsync();
+        }
+
+        private string GetRefIdUrlString(dynamic refId)
+        {
+            var refIdString = (string)refId;
+            return string.Format(_RefSetPageRelativeAddressFormatString, refIdString);
+        }
+
+        private async Task<string> GetWebPageAsStringAsync(string relativeAddress)
         {
             var httpResponseMessageTask = _httpClient.GetAsync(relativeAddress);
             var httpResponseMessage = httpResponseMessageTask.Result;
             var content = httpResponseMessage.Content;
-            var refIdPageString = await content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TResult>(refIdPageString);
+            var pageAsString = await content.ReadAsStringAsync();
+            return pageAsString;
+        }
+
+        private async Task<dynamic> GetHomePageAsContainerSetAsync(string relativeAddress)
+        {
+            var pageAsString = await GetWebPageAsStringAsync(relativeAddress);
+            dynamic json = JToken.Parse(pageAsString);
+            dynamic containers = json.data.StandardCollection.containers;
+            return containers;
+        }
+
+        private List<string> GetListOfUrlStrings(dynamic items)
+        {
+            var listOfUrls = new List<string>();
+            foreach (dynamic item in items)
+            {
+                var url = (string)item.SelectToken("$.image.tile.['1.78'].*.default.url");
+                listOfUrls.Add(url);
+            }
+            return listOfUrls;
         }
     }
 }

@@ -120,13 +120,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Api\Containers.cs" />
-    <Compile Include="Api\RefIdPage.cs" />
-    <Compile Include="Api\HomePage.cs" />
-    <Compile Include="Api\Data.cs" />
-    <Compile Include="Api\Item.cs" />
-    <Compile Include="Api\Set.cs" />
-    <Compile Include="Api\StandardCollection.cs" />
     <Compile Include="DisneyHomePageHttpConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\DisneyHomePageApi.rd.xml" />
@@ -139,9 +132,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
