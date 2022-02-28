@@ -11,49 +11,37 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
-		<!-- TODO: Use Phase keyword -->
-		<DataTemplate x:Key="imagesTemplate" x:DataType="model:Row">
-			<StackPanel Orientation="Vertical">
-				<TextBlock Text="{x:Bind Caption}" FontSize="12" Foreground="White" />
-				<GridView ItemsSource="{x:Bind ImageUrls}" Margin="0,4,0,4">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel Orientation="Horizontal" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate x:DataType="x:String">
-							<Image Width="135" ImageFailed="Image_ImageFailed" Margin="2">
-								<Image.Source>
-									<BitmapImage UriSource="{x:Bind}"
-												 DecodePixelWidth="135" />
-								</Image.Source>
-							</Image>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</GridView>
-			</StackPanel>
+		<CollectionViewSource x:Name="RowsCVS" IsSourceGrouped="True" />
+		<DataTemplate x:Key="imagesTemplate" x:DataType="x:String">
+			<Image Width="135" ImageFailed="Image_ImageFailed" Margin="2">
+				<Image.Source>
+					<BitmapImage UriSource="{x:Bind}"
+								 DecodePixelWidth="135" />
+				</Image.Source>
+			</Image>
 		</DataTemplate>
 	</Page.Resources>
 
 	<Grid Background="Black">
 		<ScrollViewer HorizontalScrollBarVisibility="Auto">
-			<StackPanel>
-				<ListView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
-						  ItemTemplate="{StaticResource imagesTemplate}" Margin="10,20">
-					<ItemsWrapGrid Orientation="Vertical">
-					</ItemsWrapGrid>
-					<!--<GridView.ItemsPanel>
-				<ItemsPanelTemplate>
-					<ItemsWrapGrid Orientation="Horizontal"></ItemsWrapGrid>
-				</ItemsPanelTemplate>
-			</GridView.ItemsPanel>-->
-				</ListView>
-				<!-- Loading indicator -->
-				<TextBlock Text="Loading..." Visibility="{x:Bind ViewModel.Rows.IsNotCompleted, Mode=OneWay}" />
-				<!-- Error/Exception details -->
-				<TextBlock Text="{x:Bind ViewModel.Rows.ErrorMessage, Mode=OneWay}" Foreground="Red" Visibility="{x:Bind ViewModel.Rows.IsFaulted, Mode=OneWay}" />
-			</StackPanel>
+			<GridView
+				  ItemsSource="{x:Bind RowsCVS.View}"
+				  ItemTemplate="{StaticResource imagesTemplate}"
+				  Margin="10,20">
+				<GridView.GroupStyle>
+					<GroupStyle HidesIfEmpty="True">
+						<GroupStyle.HeaderTemplate>
+							<DataTemplate x:DataType="model:GroupInfoList">
+								<TextBlock x:Name="Caption" Text="{x:Bind Key}" FontSize="12" Foreground="White" />
+							</DataTemplate>
+						</GroupStyle.HeaderTemplate>
+					</GroupStyle>
+				</GridView.GroupStyle>
+			</GridView>
 		</ScrollViewer>
+		<!-- Loading indicator -->
+		<!--<TextBlock Text="Loading..." Visibility="{x:Bind ViewModel.ImagesGrouped.IsNotCompleted, Mode=OneWay}" />-->
+		<!-- Error/Exception details -->
+		<!--<TextBlock Text="{x:Bind ViewModel.ImagesGrouped.ErrorMessage, Mode=OneWay}" Foreground="Red" Visibility="{x:Bind ViewModel.ImagesGrouped.IsFaulted, Mode=OneWay}" />-->
 	</Grid>
 </Page>

@@ -18,6 +18,7 @@ namespace DisneyStreamingPlus
         {
             ViewModel = new MainPageViewModel();
             InitializeComponent();
+            RowsCVS.Source = ViewModel.ImagesGrouped;
         }
 
         public MainPageViewModel ViewModel { get; set; }

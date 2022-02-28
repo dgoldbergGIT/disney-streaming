@@ -1,5 +1,5 @@
 ﻿using DisneyStreamingPlus.Model;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DisneyStreamingPlus.ViewModel
 {
@@ -7,9 +7,9 @@ namespace DisneyStreamingPlus.ViewModel
     {
         public MainPageViewModel()
         {
-            Rows = new NotifyTaskCompletion<List<Row>>(StreamingCatalog.GetListOfRowsAsync());
+            ImagesGrouped = new ObservableCollection<GroupInfoList>(StreamingCatalog.GetImagesGroupedAsync().Result);
         }
 
-        public NotifyTaskCompletion<List<Row>> Rows { get; set; }
+        public ObservableCollection<GroupInfoList> ImagesGrouped { get; set; }
     }
 }
