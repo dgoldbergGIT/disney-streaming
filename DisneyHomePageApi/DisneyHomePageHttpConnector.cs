@@ -38,6 +38,13 @@ namespace DisneyHomePageApi
             return captionAndUrlListDictionary;
         }
 
+        public static Task<DisneyHomePageHttpConnector> CreateAsync()
+        {
+            var ret = new DisneyHomePageHttpConnector();
+            return ret.InitializeAsync();
+        }
+
+        // TODO: I'm only separating ParseDynamicSets from ParseStaticSets method as a baby step to eventually support dynamic SetRef loading on the UI
         public async Task<Dictionary<string, List<string>>> ParseDynamicSets()
         {
             var captionAndUrlListDictionary = new Dictionary<string, List<string>>();
@@ -66,18 +73,6 @@ namespace DisneyHomePageApi
             return this;
         }
 
-        public static Task<DisneyHomePageHttpConnector> CreateAsync()
-        {
-            var ret = new DisneyHomePageHttpConnector();
-            return ret.InitializeAsync();
-        }
-
-        private string GetRefIdUrlString(dynamic refId)
-        {
-            var refIdString = (string)refId;
-            return string.Format(_RefSetPageRelativeAddressFormatString, refIdString);
-        }
-
         private async Task<string> GetWebPageAsStringAsync(string relativeAddress)
         {
             var httpResponseMessageTask = _httpClient.GetAsync(relativeAddress);
@@ -93,6 +88,12 @@ namespace DisneyHomePageApi
             dynamic json = JToken.Parse(pageAsString);
             dynamic containers = json.data.StandardCollection.containers;
             return containers;
+        }
+
+        private string GetRefIdUrlString(dynamic refId)
+        {
+            var refIdString = (string)refId;
+            return string.Format(_RefSetPageRelativeAddressFormatString, refIdString);
         }
 
         private List<string> GetListOfUrlStrings(dynamic items)

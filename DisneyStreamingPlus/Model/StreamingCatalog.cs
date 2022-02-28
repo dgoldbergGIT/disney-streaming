@@ -16,7 +16,6 @@ namespace DisneyStreamingPlus.Model
             {
                 listOfRows.Add(new Row(set.Value, set.Key));
             }
-
             var dynamicSets = await _connector.ParseDynamicSets();
             foreach (var set in dynamicSets)
             {
