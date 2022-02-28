@@ -11,13 +11,19 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
-		<DataTemplate x:Key="imagesTemplate" x:DataType="model:Row">
+		<DataTemplate x:Key="imagesTemplate"
+					  x:DataType="model:Row">
 			<StackPanel Orientation="Vertical">
-				<TextBlock Text="{x:Bind Caption}" FontSize="12" Foreground="White" />
-				<GridView ItemsSource="{x:Bind ImageUrls}" Margin="0,4,0,4">
+				<TextBlock Text="{x:Bind Caption}"
+						   FontSize="12"
+						   Foreground="White" />
+				<GridView ItemsSource="{x:Bind ImageUrls}"
+						  Margin="0,4,0,4">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate x:DataType="x:String">
-							<Image Width="135" ImageFailed="Image_ImageFailed" Margin="2">
+							<Image Width="135"
+								   ImageFailed="Image_ImageFailed"
+								   Margin="2">
 								<Image.Source>
 									<BitmapImage UriSource="{x:Bind}"
 												 DecodePixelWidth="135" />
@@ -33,15 +39,20 @@
 	<Grid Background="Black">
 		<ScrollViewer HorizontalScrollBarVisibility="Auto">
 			<StackPanel>
-				<ListView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}" ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
-						  ItemTemplate="{StaticResource imagesTemplate}" Margin="10,20">
+				<ListView Visibility="{x:Bind ViewModel.Rows.IsSuccessfullyCompleted, Mode=OneWay}"
+						  ItemsSource="{x:Bind ViewModel.Rows.Result, Mode=OneWay}"
+						  ItemTemplate="{StaticResource imagesTemplate}"
+						  Margin="10,20">
 					<ItemsWrapGrid Orientation="Vertical">
 					</ItemsWrapGrid>
 				</ListView>
 				<!-- Loading indicator -->
-				<TextBlock Text="Loading..." Visibility="{x:Bind ViewModel.Rows.IsNotCompleted, Mode=OneWay}" />
+				<TextBlock Text="Loading..."
+						   Visibility="{x:Bind ViewModel.Rows.IsNotCompleted, Mode=OneWay}" />
 				<!-- Error/Exception details -->
-				<TextBlock Text="{x:Bind ViewModel.Rows.ErrorMessage, Mode=OneWay}" Foreground="Red" Visibility="{x:Bind ViewModel.Rows.IsFaulted, Mode=OneWay}" />
+				<TextBlock Text="{x:Bind ViewModel.Rows.ErrorMessage, Mode=OneWay}"
+						   Foreground="Red"
+						   Visibility="{x:Bind ViewModel.Rows.IsFaulted, Mode=OneWay}" />
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>
