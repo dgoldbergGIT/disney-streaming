@@ -22,6 +22,9 @@ namespace DisneyStreamingPlus
 
         public MainPageViewModel ViewModel { get; set; }
 
+        /// <summary>
+        /// If image failed to load, use a stock 404 image
+        /// </summary>
         private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             var image = sender as Image;

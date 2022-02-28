@@ -29,39 +29,46 @@ namespace DisneyHomePageApi
         }
 
         // TODO: For readability, this should probably be a class rather than a Tuple
-        public List<Tuple<string, List<string>>> ParseStaticSetsForRowCaptionsAndRowImageUrls()
+        public List<Tuple<string, List<string>>> ParseStaticSetsForRowCaptionAndImageUrls()
         {
             var captionAndUrlTupleList = new List<Tuple<string, List<string>>>();
-            foreach (dynamic container in _ContainerSet)
+            if (_ContainerSet != null)
             {
-                dynamic set = container.set;
-                if (set.type == "CuratedSet")
+                foreach (dynamic container in _ContainerSet)
                 {
-                    string caption = set.text.title.full.set.@default.content;
-                    var listOfUrlStrings = GetListOfUrlStrings(set.items);
-                    captionAndUrlTupleList.Add(new Tuple<string, List<string>>(caption, listOfUrlStrings));
+                    dynamic set = container.set;
+                    if (set != null && set.type == "CuratedSet")
+                    {
+                        string caption = set.text.title.full.set.@default.content;
+                        var listOfUrlStrings = GetListOfUrlStrings(set.items);
+                        captionAndUrlTupleList.Add(new Tuple<string, List<string>>(caption, listOfUrlStrings));
+                    }
                 }
             }
             return captionAndUrlTupleList;
         }
 
-        // TODO: I'm only separating ParseDynamicSets from ParseStaticSets method as a baby baby step to eventually support dynamic SetRef loading on the UI
-        public async Task<List<Tuple<string, List<string>>>> ParseDynamicSetsForRowCaptionsAndRowImageUrls()
+        // NOTE: I'm only separating ParseDynamicSets from ParseStaticSets method as a baby baby step to eventually support dynamic SetRef loading on the UI
+        public async Task<List<Tuple<string, List<string>>>> ParseDynamicSetsForRowCaptionAndImageUrls()
         {
             var captionAndUrlTupleList = new List<Tuple<string, List<string>>>();
 
-            foreach (dynamic container in _ContainerSet)
+            if (_ContainerSet != null)
             {
-                dynamic set = container.set;
-                if (set.type == "SetRef")
+                foreach (dynamic container in _ContainerSet)
                 {
-                    string caption = set.text.title.full.set.@default.content;
-                    var refIdUrlString = GetRefIdUrlString(set.refId);
-                    var refSetPageAsString = await GetWebPageAsStringAsync(refIdUrlString);
-                    dynamic json = JToken.Parse(refSetPageAsString);
-                    dynamic items = json?.SelectToken("$.data.*.items");
-                    var listOfUrlStrings = GetListOfUrlStrings(items);
-                    captionAndUrlTupleList.Add(new Tuple<string, List<string>>(caption, listOfUrlStrings));
+                    dynamic set = container.set;
+                    if (set != null && set.type == "SetRef")
+                    {
+                        string caption = set.text.title.full.set.@default.content;
+                        var refIdUrlString = GetRefIdUrlString(set.refId);
+                        // Download the JSON from the website with the RefId
+                        var refSetPageAsString = await GetWebPageAsStringAsync(refIdUrlString);
+                        dynamic json = JToken.Parse(refSetPageAsString);
+                        dynamic items = json?.SelectToken("$.data.*.items");
+                        var listOfUrlStrings = GetListOfUrlStrings(items);
+                        captionAndUrlTupleList.Add(new Tuple<string, List<string>>(caption, listOfUrlStrings));
+                    }
                 }
             }
 
@@ -100,10 +107,15 @@ namespace DisneyHomePageApi
         private List<string> GetListOfUrlStrings(dynamic items)
         {
             var listOfUrls = new List<string>();
-            foreach (dynamic item in items)
+            if (items != null)
             {
-                var url = (string)item?.SelectToken("$.image.tile.['1.78'].*.default.url");
-                listOfUrls.Add(url);
+                foreach (dynamic item in items)
+                {
+                    // There are three valid keywords where the * is in the path below, but we really don't care what keyword is there, we just want to keep going to get the Url.
+                    // Using ['1.78'] so that we can access the dot as part of the string
+                    var url = (string)item?.SelectToken("$.image.tile.['1.78'].*.default.url");
+                    listOfUrls.Add(url);
+                }
             }
             return listOfUrls;
         }
