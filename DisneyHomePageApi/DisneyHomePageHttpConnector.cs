@@ -22,9 +22,16 @@ namespace DisneyHomePageApi
             _httpClient.BaseAddress = new Uri(_HomePageBaseAddress);
         }
 
-        public Dictionary<string, List<string>> ParseStaticSets()
+        public static Task<DisneyHomePageHttpConnector> CreateAsync()
         {
-            var captionAndUrlListDictionary = new Dictionary<string, List<string>>();
+            var ret = new DisneyHomePageHttpConnector();
+            return ret.InitializeAsync();
+        }
+
+        // TODO: For readability, this should probably be a class rather than a Tuple
+        public List<Tuple<string, List<string>>> ParseStaticSetsForRowCaptionsAndRowImageUrls()
+        {
+            var captionAndUrlTupleList = new List<Tuple<string, List<string>>>();
             foreach (dynamic container in _ContainerSet)
             {
                 dynamic set = container.set;
@@ -32,22 +39,16 @@ namespace DisneyHomePageApi
                 {
                     string caption = set.text.title.full.set.@default.content;
                     var listOfUrlStrings = GetListOfUrlStrings(set.items);
-                    captionAndUrlListDictionary.Add(caption, listOfUrlStrings);
+                    captionAndUrlTupleList.Add(new Tuple<string, List<string>>(caption, listOfUrlStrings));
                 }
             }
-            return captionAndUrlListDictionary;
+            return captionAndUrlTupleList;
         }
 
-        public static Task<DisneyHomePageHttpConnector> CreateAsync()
+        // TODO: I'm only separating ParseDynamicSets from ParseStaticSets method as a baby baby step to eventually support dynamic SetRef loading on the UI
+        public async Task<List<Tuple<string, List<string>>>> ParseDynamicSetsForRowCaptionsAndRowImageUrls()
         {
-            var ret = new DisneyHomePageHttpConnector();
-            return ret.InitializeAsync();
-        }
-
-        // TODO: I'm only separating ParseDynamicSets from ParseStaticSets method as a baby step to eventually support dynamic SetRef loading on the UI
-        public async Task<Dictionary<string, List<string>>> ParseDynamicSets()
-        {
-            var captionAndUrlListDictionary = new Dictionary<string, List<string>>();
+            var captionAndUrlTupleList = new List<Tuple<string, List<string>>>();
 
             foreach (dynamic container in _ContainerSet)
             {
@@ -58,13 +59,13 @@ namespace DisneyHomePageApi
                     var refIdUrlString = GetRefIdUrlString(set.refId);
                     var refSetPageAsString = await GetWebPageAsStringAsync(refIdUrlString);
                     dynamic json = JToken.Parse(refSetPageAsString);
-                    dynamic items = json.SelectToken("$.data.*.items");
+                    dynamic items = json?.SelectToken("$.data.*.items");
                     var listOfUrlStrings = GetListOfUrlStrings(items);
-                    captionAndUrlListDictionary.Add(caption, listOfUrlStrings);
+                    captionAndUrlTupleList.Add(new Tuple<string, List<string>>(caption, listOfUrlStrings));
                 }
             }
 
-            return captionAndUrlListDictionary;
+            return captionAndUrlTupleList;
         }
 
         private async Task<DisneyHomePageHttpConnector> InitializeAsync()
@@ -101,7 +102,7 @@ namespace DisneyHomePageApi
             var listOfUrls = new List<string>();
             foreach (dynamic item in items)
             {
-                var url = (string)item.SelectToken("$.image.tile.['1.78'].*.default.url");
+                var url = (string)item?.SelectToken("$.image.tile.['1.78'].*.default.url");
                 listOfUrls.Add(url);
             }
             return listOfUrls;
